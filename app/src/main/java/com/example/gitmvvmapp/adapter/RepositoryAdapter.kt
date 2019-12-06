@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gitmvvmapp.R
 import com.example.gitmvvmapp.model.Repository
+import com.example.gitmvvmapp.view.RepoInfo
 
 class  RepositoryAdapter(val repoList: List<Repository>) :
     RecyclerView.Adapter<RepositoryAdapter.RepositoryViewHolder>(){
@@ -31,11 +32,16 @@ class  RepositoryAdapter(val repoList: List<Repository>) :
         holder.repoName.text = repoList[position].name
 
         holder.itemView.setOnClickListener{
-            holder.itemView.context.applicationContext.sendBroadcast(Intent("from.rv.view").also {
-                it.putExtra("repositoryName", repoList[position].name)
-            })
+//            holder.itemView.context.applicationContext.sendBroadcast(Intent("from.rv.view").also {
+//                it.putExtra("repositoryName", repoList[position].name)
+            val intent = Intent(it.context, RepoInfo::class.java)
+            intent.putExtra("name", repoList[position].name)
+            intent.putExtra("url", repoList[position].htmlUrl)
+            intent.putExtra("avatar", repoList[position].owner.avatarUrl)
+            it.context.startActivity(intent)
+
+            }
         }
-    }
 
     inner class RepositoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
